@@ -19,13 +19,13 @@
  Namig: Občudujte informativnost tipov funkcij.
 [*----------------------------------------------------------------------------*)
 
-type euro 
+type euro = Euro of float
 
-type dollar 
+type dollar = Dollar of float
 
-let dollar_to_euro _ = ()
+let dollar_to_euro (Dollar x ) = Euro ( x  *. 8.31)
 
-let euro_to_dollar _ = ()
+let euro_to_dollar = fun ( Euro x ) -> Dollar (x *. 1.38)
 
 (* let primer_valute_1 = dollar_to_euro (Dollar 0.5) *)
 (* val primer_valute_1 : euro = Euro 0.4305 *)
@@ -39,9 +39,17 @@ let euro_to_dollar _ = ()
  Ocaml sam opozori, da je potrebno popraviti funkcijo `to_pound`.
 [*----------------------------------------------------------------------------*)
 
-type currency 
+type currency = 
+| Yen of float
+| Funt of float
+| Krona of float
 
-let to_pound _ = ()
+let to_pound = function
+| Yen x -> Funt (2.5 *. x)
+|Funt x -> Funt x
+| Krona x -> Funt (1.5 *. x)z
+
+type AplusB = In1 of 'a | In2 of 'b
 
 (* let primer_valute_2 = to_pound (Yen 100.) *)
 (* val primer_valute_2 : currency = Pound 0.700000000000000067 *)
@@ -69,9 +77,13 @@ let to_pound _ = ()
  Nato napišite testni primer, ki bi predstavljal `[5; true; false; 7]`.
 [*----------------------------------------------------------------------------*)
 
-type intbool_list 
+type intbool_list =
+| Int of int * intbool_list
+| Bool of bool * intbool_list
+| Nil
 
-let test = ()
+
+let test = Int ( 5, Bool (true, Bool (false, Int (7, Nil ))) )
 
 (*----------------------------------------------------------------------------*
  Funkcija `intbool_map f_int f_bool ib_list` preslika vrednosti `ib_list` v nov
